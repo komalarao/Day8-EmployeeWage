@@ -2,61 +2,82 @@ package com.bridgelabz.employeeWage;
 import java.util.Random;
 public class EmployeeWage {
 	
-
 		/*
-		 * Refactor the Code to write a Class Method to Compute Employee Wage
+		 * compute Employee Wage for multiple companies
 		 */
 
-		public static int wagePerHour = 20;
 		public static int fullDayHours = 8;
 		public static int halfDayHours = 4;
-		public static int salary = 0;
-		public static int monthlysalary = 0;
-		public static int workingDaysPerMonth = 20;
-		public static int days = 0;
-		public static int monthlyHours = 0;
 
-		public static int EmployeeWage() {
-			System.out.println("Welcome to Employee Wage Computation Program");
-			Random random = new Random(); // create object
+		private final String companyName;
+		private final int WagePerHour;
+		private final int workingHours;
+		private final int workingDays;
 
-			/*
-			 * for a month assuming 100 hours and 20day will give 0,1,2 random number
-			 */
-			while (days != 20 && monthlyHours != 100) { // condition till working hours reaches for month
+		static Random random = new Random(); 
+
+		public EmployeeWage(String companyName, int wagePerHour, int workingHours, int workingDays) {
+			this.companyName = companyName;
+			this.WagePerHour = wagePerHour;
+			this.workingDays = workingDays;
+			this.workingHours = workingHours;
+
+		}
+
+		public int calculateWage() {
+			int salary = 0;
+			int totalSalary = 0;
+			int totalWorkingHours = 0;
+			int days = 0;
+
+			while (totalWorkingHours <= workingHours && days <= workingDays) {
 				days++;
-				int randomNum = random.nextInt(3);
+				int empCheck = random.nextInt(3); 
 
 				/*
-				 * By using Switch case statement Calculate and getting this salary
+				 * By using switch case for empCheck Calculating of salary and total working
+				 * hours
 				 */
-				switch (randomNum) {
-
-				case 0:
-					 System.out.println("Employee is Absent");
-					break;
+				switch (empCheck) {
 				case 1:
-					System.out.println("employee is present for Full Day: ");
-					salary = wagePerHour * fullDayHours;
-					monthlyHours = monthlyHours+fullDayHours;
+
+					System.out.println("Present Fullday.");
+					salary = WagePerHour * fullDayHours;
+					totalWorkingHours = totalWorkingHours + fullDayHours;
 					break;
 				case 2:
-					System.out.println("employe present for Half Day: ");
-					salary = wagePerHour * halfDayHours;
-					monthlyHours = monthlyHours+halfDayHours;
+
+					System.out.println("Present HalfDay.");
+					salary = WagePerHour * halfDayHours;
+					totalWorkingHours = totalWorkingHours + halfDayHours;
+					break;
+				default:
+					System.out.println("Employee Absent"); 
 				}
-				monthlysalary = monthlysalary + salary;
-				System.out.println("total hours "+monthlyHours+" and Day" + days + " Salary is: " + salary); // print days and with salary base
-
+				/*
+				 * if we have to print days show the working hours and to getting of salary
+				 */
+				System.out.print("Day: " + days + empCheck + " ");
+				System.out.print("Working Hours: " + totalWorkingHours + " ");
+				System.out.print("Salary is: " + salary + " ");
+				totalSalary = totalSalary + salary;
 			}
-			System.out.println("Monthly Salary: " + monthlysalary); // Print the total of monthly salary
-			return monthlysalary;
+			return totalWorkingHours * WagePerHour;
 
 		}
 
+		
 		public static void main(String[] args) {
-			EmployeeWage();
-		}
+			/*
+			 * it create employeeWage object and add to company names print the total
+			 * employee wage company
+			 */
+			EmployeeWage reliance = new EmployeeWage("reliance", 25, 110, 38);
+			EmployeeWage Dmart = new EmployeeWage("Dmart", 30, 120, 40);
 
+			System.out.println("Total employee's wage of Company: " + reliance.companyName + ": " + reliance.calculateWage());
+			System.out.println("Total employee's wage of Company: " + Dmart.companyName + ": " + Dmart.calculateWage());
+
+		}
 
 }
